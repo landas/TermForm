@@ -120,6 +120,8 @@
       <ConformanceMode>true</ConformanceMode>
       <Optimization>MinSpace</Optimization>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,16 +131,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ansi_escape_codes.cpp" />
+    <ClCompile Include="container.cpp" />
+    <ClCompile Include="radio_button.cpp" />
     <ClCompile Include="TermForm.cpp" />
+    <ClCompile Include="tools.cpp" />
+    <ClCompile Include="windows_tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ansi_escape_codes.h" />
+    <ClInclude Include="checkbox.h" />
+    <ClInclude Include="column_container.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="control.h" />
+    <ClInclude Include="button.h" />
+    <ClInclude Include="paint_return.h" />
+    <ClInclude Include="radio_button.h" />
     <ClInclude Include="row_container.h" />
+    <ClInclude Include="textfield.h" />
     <ClInclude Include="tools.h" />
     <ClInclude Include="form.h" />
     <ClInclude Include="container.h" />
-    <ClInclude Include="text.h" />
+    <ClInclude Include="label.h" />
+    <ClInclude Include="windows_tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
