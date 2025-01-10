@@ -13,7 +13,7 @@ namespace termform {
 
 	public:
 		
-		inline paint_return paint(int x, int y) override {
+		inline paint_return paint(int x, int y, bool force) override {
 			auto size = string_boxsize(_text);
 			invalid(false);
 			return { size.width, size.height, _text };

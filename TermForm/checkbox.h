@@ -38,7 +38,8 @@ namespace termform {
 			return false;
 		}
 
-		paint_return paint(int x, int y) override {
+		paint_return paint(int x, int y, bool force) override {
+			invalid(false);
 			return { _width, _height, control::concat_string(_checked ? "[X] " : "[ ] ", "") };
 		}
 

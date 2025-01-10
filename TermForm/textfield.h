@@ -27,7 +27,7 @@ namespace termform {
 			if (ch == 8 && _text.size() > 0) {
 				_text.erase(_text.size() - 1);
 			}
-			else if ( (_max_length == 0 || _max_length < _text.length() + 1)
+			else if ( (_max_length == 0 || _max_length > _text.length())
 				&& ((_allowed_characters.size() == 0 && is_allowed_characters_standard(ch)) || _allowed_characters.find(ch) != std::string::npos)
 			) {
 				_text += ch;
@@ -44,6 +44,14 @@ namespace termform {
 		inline void allowed_characters(const std::string& allowed_characters) {
 			_allowed_characters = allowed_characters;
 		}
+
+		inline void max_length(int16_t max_length) {
+			_max_length = max_length;
+		}
+
+		inline int16_t max_length() const {
+			return _max_length;
+		}
 		
 		inline std::string label() const {
 			return _label;
@@ -57,7 +65,7 @@ namespace termform {
 			}
 		}
 
-		paint_return paint(int x, int y) override {
+		paint_return paint(int x, int y, bool force) override {
 			std::string str{};
 
 			if (_label.size() != 0) {
@@ -69,6 +77,8 @@ namespace termform {
 			for (int16_t pos = static_cast<int16_t>(_text.size()); pos <= _width; ++pos) {
 				str += '_';
 			}
+
+			invalid(false);
 			
 			return { _width, _height, str };
 		}

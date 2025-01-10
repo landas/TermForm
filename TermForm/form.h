@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <type_traits>
+#include <string>
 #include "ansi_escape_codes.h"
 #include "tools.h"
 #include "paint_return.h"
@@ -14,17 +15,13 @@
 #include "checkbox.h"
 #include "radio_button.h"
 #include "textfield.h"
+#include <windows.h>
+
 
 namespace termform {
 
 	class form {
-	protected:
-		container_ptr base_container{ nullptr };
-		print_function* _print{ nullptr };
-		std::string _status{};
-		int16_t _width{ 0 };
-		int16_t _height{ 0 };
-		bool _quit{ false };
+ 
 
 	public:
 		template <typename T, class... Args, typename = std::enable_if_t<std::is_base_of_v<control, T>>>
@@ -82,10 +79,18 @@ namespace termform {
 			_status = s;
 		}
 
-		inline void display() const {
-			print(ansi_escape_code::get_clear_all());
+		inline void paint(bool force_repaint = false) const {
+			
+			if(force_repaint)
+				print(ansi_escape_code::get_clear_all());
+			
 			print(ansi_escape_code::get_hide_cursor());
-			auto ret = base_container->paint(1, 1);
+			auto ret = base_container->paint(0, 0, force_repaint);
+
+			std::string tmp = ret.string + "\n";
+			std::wstring myWString = std::wstring(tmp.begin(), tmp.end());
+			OutputDebugString(myWString.c_str());
+
 			print(ret.string);
 			display_status();
 		}
@@ -94,12 +99,26 @@ namespace termform {
 			if (_print != nullptr)
 				_print(s);
 		}
+
 	private:
 		void display_status() const {
+			
+
 			print(ansi_escape_code::get_move(0, _height-1) + 
 				ansi_escape_code::get(ansi_escape_code::color::standard) + 
 				ansi_escape_code::get(ansi_escape_code::background::standard) +
-				_status);
+				(_status.length()<= max_status_length ? _status : _status.substr(0,max_status_length)));
 		}
+
+	protected:
+		container_ptr base_container{ nullptr };
+		print_function* _print{ nullptr };
+		std::string _status{};
+		int16_t _width{ 0 };
+		int16_t _height{ 0 };
+		bool _quit{ false };
+
+	private:
+		static constexpr int16_t max_status_length{ 150 };
 	};
 }

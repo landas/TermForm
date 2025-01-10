@@ -6,7 +6,7 @@
 #include <conio.h>
 #include <string>
 #include "form.h"
-
+#include "console_input_reader_windows.h"
 #include "windows_tools.h"
 
 bool quit_function(termform::component& c) {
@@ -34,7 +34,6 @@ int main()
     int width = 0;
     int height = 0;
 
-
     if (!get_console_size(width, height)) 
     {
         std::cout << "Could not get console size" << std::endl;
@@ -59,6 +58,7 @@ int main()
 
     termform::form form(width, height, &std_print);;
     auto container = termform::form::make_container<termform::row_container>();
+    container->width(100);
 
     auto label1 = termform::form::make_control<termform::label>();
     label1->text("Text 1");
@@ -95,6 +95,8 @@ int main()
    
     auto textinput1 = termform::form::make_control<termform::textfield>(20, "0.0.0.0");
     textinput1->label("IP-address");
+    textinput1->allowed_characters("0123456789.:");
+	textinput1->max_length(15);
     container->add(textinput1);
    
     auto radioA_1 = termform::form::make_control<termform::radio_button>("A");
@@ -117,7 +119,6 @@ int main()
     radioB_2->label("Radio valg 1");
     container->add(radioB_2);
 
-
     form.set(container);
     form.status("Sizeof termform::button: " + std::to_string(sizeof(termform::button)) +
         ", termform::component: " + std::to_string(sizeof(termform::component)) +
@@ -127,31 +128,16 @@ int main()
 
     std::string test{};
 
+    termform::console_input_reader_windows input_reader{};
+
     while (true)
     {
-        form.display();
-        int16_t key = static_cast<int16_t>(_getch());
-
-        
-        if (key == 224) {
-            key = static_cast<int16_t>(_getch());
-            if (key == 72) 
-                key = termform::keycode.arrow_up;
-            else if (key == 80)
-                key = termform::keycode.arrow_down;
-            else if (key == 75)
-                key = termform::keycode.arrow_left;
-            else if (key == 77)
-                key = termform::keycode.arrow_right;
-            else
-                key = 0;
-            
-        }
-        
-
-        test += std::to_string(key) + ",";
+        form.paint();
+ 
+        int16_t key = input_reader();
+  
+        test = std::to_string(key) + "," + test;
         form.status(test);
-
 
         form.input(key);
 

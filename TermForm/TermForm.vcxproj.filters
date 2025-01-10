@@ -33,6 +33,15 @@
     <ClCompile Include="radio_button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="console_input_reader.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="console_input_reader_windows.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="form.h">

@@ -12,8 +12,62 @@ namespace termform {
 		radio_button(const std::string& group) : control() {
 			_focusable = true;
 			_group_hash = string_hash_16(group);
+
+			if (!group_has_selected()) {
+				_selected = true;
+			}
+
 			_radio_buttons.push_back(this);
 		}
+
+		// Copy Constructor
+		radio_button(const radio_button& other) {
+			_focusable = true;
+			_group_hash = other._group_hash;
+			_flags = other._flags;
+			_background = other._background;
+			_background_selected = other._background_selected;
+			_color = other._color;
+			_color_selected = other._color_selected;
+			_height = other._height;
+			_width = other._width;
+			_x = other._x;
+			_y = other._y;
+			_text = other._text;
+			_selected = other._selected;
+			_on_change = other._on_change;
+			_on_focus = other._on_focus;
+			_on_leave = other._on_leave;
+			_on_input = other._on_input;
+			_radio_buttons.push_back(this);
+		}
+
+		// Copy Assignment Operator
+		radio_button& operator=(const radio_button& other) {
+			_focusable = true;
+			_group_hash = other._group_hash;
+			_flags = other._flags;
+			_background = other._background;
+			_background_selected = other._background_selected;
+			_color = other._color;
+			_color_selected = other._color_selected;
+			_height = other._height;
+			_width = other._width;
+			_x = other._x;
+			_y = other._y;
+			_text = other._text;
+			_selected = other._selected;
+			_on_change = other._on_change;
+			_on_focus = other._on_focus;
+			_on_leave = other._on_leave;
+			_on_input = other._on_input;
+		}
+
+		// Move Constructor (defaults to copy)
+		//radio_button(radio_button&& other) noexcept { }
+
+		// Move Assignment Operator (defaults to copy)
+		//radio_button& operator=(radio_button&& other) noexcept { }
 
 		~radio_button() {
 			auto it = std::find(_radio_buttons.begin(), _radio_buttons.end(), this);
@@ -71,8 +125,20 @@ namespace termform {
 			return false;
 		}
 
-		paint_return paint(int x, int y) override {
+		paint_return paint(int x, int y, bool force) override {
+			invalid(false);
 			return { _width, _height, control::concat_string(is_selected() ? "(o) " : "( ) ", "")};
+		}
+
+	private:
+
+		bool group_has_selected() {
+			for (const auto& e : _radio_buttons) {
+				if (e->_group_hash == _group_hash && e->is_selected()) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 	private:

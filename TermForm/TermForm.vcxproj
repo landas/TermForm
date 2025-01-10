@@ -132,6 +132,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ansi_escape_codes.cpp" />
+    <ClCompile Include="component.cpp" />
+    <ClCompile Include="console_input_reader.h" />
+    <ClCompile Include="console_input_reader_windows.h" />
     <ClCompile Include="container.cpp" />
     <ClCompile Include="radio_button.cpp" />
     <ClCompile Include="TermForm.cpp" />

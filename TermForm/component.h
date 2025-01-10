@@ -8,29 +8,38 @@
 namespace termform {
 
 	class form;
+	class container;
 
 	class component {
 
 	public:
 		virtual ~component() = default;
-		virtual paint_return paint(int x, int y) = 0;
+		virtual paint_return paint(int x, int y, bool force) = 0;
 		virtual bool input(int) = 0;
 		virtual form* get_form() = 0;
 
-		inline int x() const {
+		inline int16_t x() const {
 			return _x;
 		}
 
-		inline int y() const {
+		inline int16_t y() const {
 			return _y;
 		}
 		
-		inline int width() const {
+		inline int16_t width() const {
 			return _width;
 		}
+
+		inline void width(int16_t width) {
+			_width = width;
+		}
 		
-		inline int height() const {
+		inline int16_t height() const {
 			return _height;
+		}
+
+		inline void height(int16_t height) {
+			_height = height;
 		}
 
 		inline void x(int x) {
@@ -49,14 +58,13 @@ namespace termform {
 			return _invalid;
 		}
 
-		inline void invalid(bool invalid) {
-			_invalid = invalid;
-		}
+		void invalid(bool invalid);
 
 		virtual bool try_give_focus() {
 			if (_focusable) {
 				if (!_has_focus) {
 					_has_focus = true;
+					invalid(true);
 					trigger_focus();
 				}
 				return true;
@@ -72,6 +80,7 @@ namespace termform {
 		void release_focus() {
 			if (_has_focus) {
 				_has_focus = false;
+				invalid(true);
 				trigger_leave();
 			}
 		}
@@ -156,7 +165,7 @@ namespace termform {
 		
 
 		union {
-			char flags{ 4 };
+			char _flags{ 4 };
 			struct {
 				bool _focusable : 1;
 				bool _has_focus : 1;
