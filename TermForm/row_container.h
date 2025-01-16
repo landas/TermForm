@@ -13,21 +13,28 @@ namespace termform {
 	protected:
 	
 	public:
-		paint_return paint(int x, int y, bool force) override {
+		paint_return paint(uint16_t x, uint16_t y, bool force) override {
 			std::string str{};
-			int y_pos = y;
+			uint16_t y_pos = y;
 			for (const auto& c : components) {
 				bool is_invalid = c->invalid();
 				auto ret = c->paint(x, y_pos, force);
-				y_pos += ret.height;
+
 				if (is_invalid || force)
 				{
-					std::string str_plus_padding = ret.string;
-					//str_plus_padding.append(_width - ret.width, ' ');
-					str += ansi_escape_code::get(x, y_pos, c->get_paint_color(), c->get_paint_background(), str_plus_padding);
+					if (!c->is_container()) {
+						//y_pos -= 1;
+						std::string str_plus_padding = ret.string;
+						//str_plus_padding.append(_width - ret.width, ' ');
+						str += ansi_escape_code::get(x, y_pos, c->get_paint_color(), c->get_paint_background(), str_plus_padding);
+					}
+					else {
+						str += ret.string;
+					}
 				}
+				y_pos += ret.height;
 			}
-			return { x,y_pos - y,str };
+			return { x,static_cast<uint16_t>(y_pos - y), str };
 		}
 	};
 }

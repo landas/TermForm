@@ -3,7 +3,7 @@
 #include <string>
 
 struct paint_return {
-	int width;
-	int height;
+	uint16_t width;
+	uint16_t height;
 	std::string string;
 };

@@ -14,7 +14,7 @@ namespace termform {
 
 	public:
 		virtual ~component() = default;
-		virtual paint_return paint(int x, int y, bool force) = 0;
+		virtual paint_return paint(uint16_t x, uint16_t y, bool force) = 0;
 		virtual bool input(int) = 0;
 		virtual form* get_form() = 0;
 
@@ -56,6 +56,10 @@ namespace termform {
 		
 		inline bool invalid() const {
 			return _invalid;
+		}
+
+		inline bool is_container() const {
+			return _is_container;
 		}
 
 		void invalid(bool invalid);
@@ -158,19 +162,19 @@ namespace termform {
 		
 		container* _parent{ nullptr };
 		
-		int16_t _x{ 0 };
-		int16_t _y{ 0 };
-		int16_t _width{ 0 };
-		int16_t _height{ 0 };
+		uint16_t _x{ 0 };
+		uint16_t _y{ 0 };
+		uint16_t _width{ 1 };
+		uint16_t _height{ 1 };
 		
-
 		union {
 			char _flags{ 4 };
 			struct {
 				bool _focusable : 1;
 				bool _has_focus : 1;
 				bool _invalid : 1;
-				char : 5;
+				bool _is_container : 1;
+				char : 4;
 			};
 		};
 		

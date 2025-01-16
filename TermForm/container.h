@@ -12,6 +12,10 @@ namespace termform {
 	class container : public component {
 	
 	public:
+		container() {
+			_is_container = true;
+		}
+
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<component, T>>>
 		void add(std::shared_ptr<T> ptr_object)
 		{

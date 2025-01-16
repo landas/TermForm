@@ -9,6 +9,7 @@
 #include "paint_return.h"
 #include "container.h"
 #include "row_container.h"
+#include "column_container.h"
 #include "control.h"
 #include "label.h"
 #include "button.h"
@@ -22,7 +23,6 @@ namespace termform {
 
 	class form {
  
-
 	public:
 		template <typename T, class... Args, typename = std::enable_if_t<std::is_base_of_v<control, T>>>
 		static std::shared_ptr<T> make_control(Args... args)
@@ -57,6 +57,14 @@ namespace termform {
 			_print = print;
 		}
 
+		uint16_t width() {
+			return _width;
+		}
+
+		uint16_t height() {
+			return _height;
+		}
+
 		void input(int chr) {
 			if (!base_container->input(chr)) {
 				//handle something here?
@@ -79,14 +87,21 @@ namespace termform {
 			_status = s;
 		}
 
+		void clear() {
+			print(ansi_escape_code::get_clear_all());
+		}
+
 		inline void paint(bool force_repaint = false) const {
 			
 			if(force_repaint)
 				print(ansi_escape_code::get_clear_all());
 			
 			print(ansi_escape_code::get_hide_cursor());
-			auto ret = base_container->paint(0, 0, force_repaint);
+			
+			// Terminal upper / left is (1,1)
+			auto ret = base_container->paint(1, 1, force_repaint);
 
+			// Debug output
 			std::string tmp = ret.string + "\n";
 			std::wstring myWString = std::wstring(tmp.begin(), tmp.end());
 			OutputDebugString(myWString.c_str());
@@ -103,8 +118,8 @@ namespace termform {
 	private:
 		void display_status() const {
 			
-
-			print(ansi_escape_code::get_move(0, _height-1) + 
+			
+			print(ansi_escape_code::get_move(0, _height - 1) +
 				ansi_escape_code::get(ansi_escape_code::color::standard) + 
 				ansi_escape_code::get(ansi_escape_code::background::standard) +
 				(_status.length()<= max_status_length ? _status : _status.substr(0,max_status_length)));

@@ -104,15 +104,22 @@ namespace termform {
 			return _selected;
 		}
 
+		inline void set_selected(bool selected) {
+			if (_selected != selected) {
+				_selected = selected;
+				invalid(true);
+			}
+		}
+
 		void select() {
 			if (!_selected) {
 				auto prev_selected = get_selected();
 				if (prev_selected != nullptr) {
-					prev_selected->_selected = false;
+					prev_selected->set_selected(false);
 					prev_selected->trigger_change();
 				}
 
-				_selected = true;
+				set_selected(true);
 				trigger_change();
 			}
 		}
@@ -125,7 +132,7 @@ namespace termform {
 			return false;
 		}
 
-		paint_return paint(int x, int y, bool force) override {
+		paint_return paint(uint16_t x, uint16_t y, bool force) override {
 			invalid(false);
 			return { _width, _height, control::concat_string(is_selected() ? "(o) " : "( ) ", "")};
 		}

@@ -18,20 +18,20 @@ namespace termform {
 	} keycode;
 
 	struct position {
-		int x{ 0 };
-		int y{ 0 };
+		uint16_t x{ 0 };
+		uint16_t y{ 0 };
 	};
 	
 	struct boxsize {
-		int width{ 0 };
-		int height{ 0 };
+		uint16_t width{ 0 };
+		uint16_t height{ 0 };
 	};
 
 	struct rect {
-		int x{ 0 };
-		int y{ 0 };
-		int width{ 0 };
-		int height{ 0 };
+		uint16_t x{ 0 };
+		uint16_t y{ 0 };
+		uint16_t width{ 0 };
+		uint16_t height{ 0 };
 	};
 
 	boxsize string_boxsize(const std::string&);

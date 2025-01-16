@@ -4,14 +4,14 @@ namespace termform {
 	bool container::input(int chr) {
 		if (!cursor->input(chr)) {
 			switch (chr) {
-			case keycode.arrow_down: // DOWN
+			case keycode.arrow_down:
 				move_cursor_to_next();
 				return true;
-			case keycode.arrow_up: // UP
+			case keycode.arrow_up:
 				move_cursor_to_prev();
 				return true;
-			case 75: // LEFT
-			case 77: // RIGHT
+			case keycode.arrow_left:
+			case keycode.arrow_right:
 			default:
 				break;
 

@@ -10,13 +10,10 @@ namespace termform {
 		boxsize _string_size{ 0,1 };
 		std::vector<std::string> v(2);
 		std::string stripped_string{ ansi_escape_code::strip(s) };
-		std::string tmp{};
-		int16_t cwidth{ 0 };
+		uint16_t cwidth{ 0 };
 		
 		for (const auto& c : stripped_string) {
 			if (c == '\n') {
-				v.push_back(tmp);
-				tmp = "";
 				if (cwidth > _string_size.width) {
 					_string_size.width = cwidth;
 				}
@@ -25,10 +22,14 @@ namespace termform {
 				cwidth = 0;
 			}
 			else {
-				tmp += c;
 				++cwidth;
 			}
 		}
+
+		if (cwidth > _string_size.width) {
+			_string_size.width = cwidth;
+		}
+
 		return _string_size;
 	}
 

@@ -33,12 +33,13 @@ namespace termform {
 		bool input(int c) override {
 			if (c == 32 || c == 13) {
 				checked(!checked());
+				invalid(true);
 				return true;
 			}
 			return false;
 		}
 
-		paint_return paint(int x, int y, bool force) override {
+		paint_return paint(uint16_t x, uint16_t y, bool force) override {
 			invalid(false);
 			return { _width, _height, control::concat_string(_checked ? "[X] " : "[ ] ", "") };
 		}

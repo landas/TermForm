@@ -26,6 +26,8 @@ namespace termform {
 			auto ch = static_cast<char>(c);
 			if (ch == 8 && _text.size() > 0) {
 				_text.erase(_text.size() - 1);
+				invalid(true);
+				return true;
 			}
 			else if ( (_max_length == 0 || _max_length > _text.length())
 				&& ((_allowed_characters.size() == 0 && is_allowed_characters_standard(ch)) || _allowed_characters.find(ch) != std::string::npos)
@@ -60,12 +62,12 @@ namespace termform {
 		inline void label(const std::string& label) {
 			if (label != _label) {
 				_label = label;
-				_width = _input_width + (_label.size() == 0 ? 0 : label.size() + 2);
+				_width = static_cast<uint16_t>(_input_width + (_label.size() == 0 ? 0 : label.size() + 2));
 				invalid(true);
 			}
 		}
 
-		paint_return paint(int x, int y, bool force) override {
+		paint_return paint(uint16_t x, uint16_t y, bool force) override {
 			std::string str{};
 
 			if (_label.size() != 0) {
@@ -74,7 +76,7 @@ namespace termform {
 			
 			str += "_" + _text;
 			
-			for (int16_t pos = static_cast<int16_t>(_text.size()); pos <= _width; ++pos) {
+			for (int16_t pos = static_cast<int16_t>(_text.size()); pos <= _input_width; ++pos) {
 				str += '_';
 			}
 
