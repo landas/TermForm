@@ -44,7 +44,7 @@ namespace termform {
 			return false;
 		}	
 
-		form* get_form() override {
+		form* get_form() const override {
 			auto p = parent();
 			if (p != nullptr) {
 				return p->get_form();

@@ -16,7 +16,7 @@ namespace termform {
 		virtual ~component() = default;
 		virtual paint_return paint(uint16_t x, uint16_t y, bool force) = 0;
 		virtual bool input(int) = 0;
-		virtual form* get_form() = 0;
+		virtual form* get_form() const = 0;
 
 		inline int16_t x() const {
 			return _x;
@@ -81,7 +81,7 @@ namespace termform {
 			return try_give_focus();
 		}
 
-		void release_focus() {
+		virtual void release_focus() {
 			if (_has_focus) {
 				_has_focus = false;
 				invalid(true);
@@ -101,7 +101,7 @@ namespace termform {
 			_on_input = h;
 		}
 		
-		inline container* parent() {
+		inline container* parent() const {
 			return _parent;
 		}
 

@@ -16,7 +16,7 @@ namespace termform {
 		paint_return paint(uint16_t x, uint16_t y, bool force) override {
 			std::string str{};
 			uint16_t y_pos = y;
-			for (const auto& c : components) {
+			for (const auto& c : _components) {
 				bool is_invalid = c->invalid();
 				auto ret = c->paint(x, y_pos, force);
 

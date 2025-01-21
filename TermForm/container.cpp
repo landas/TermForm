@@ -1,8 +1,9 @@
 #include "container.h"
+#include "form.h"
 
 namespace termform {
 	bool container::input(int chr) {
-		if (!cursor->input(chr)) {
+		if (!_cursor->input(chr)) {
 			switch (chr) {
 			case keycode.arrow_down:
 				move_cursor_to_next();
@@ -23,13 +24,13 @@ namespace termform {
 	}
 
 	bool container::try_give_focus() {
-		if (cursor != nullptr)
-			cursor->release_focus();
+		if (_cursor != nullptr)
+			_cursor->release_focus();
 
-		for (auto& e : components) {
+		for (auto& e : _components) {
 			if (e->try_give_focus())
 			{
-				cursor = e;
+				_cursor = e;
 				return true;
 			}
 		}
@@ -37,12 +38,12 @@ namespace termform {
 	}	
 	
 	bool container::try_give_focus_back() {
-		if (cursor != nullptr)
-			cursor->release_focus();
+		if (_cursor != nullptr)
+			_cursor->release_focus();
 
-		for (auto it = components.rbegin(); it != components.rend(); ++it) {
+		for (auto it = _components.rbegin(); it != _components.rend(); ++it) {
 			if ((*it)->try_give_focus_back()) {
-				cursor = *it;
+				_cursor = *it;
 				return true;
 			}
 		}
@@ -52,17 +53,17 @@ namespace termform {
 
 
 	bool container::move_cursor_to_next() {
-		if(cursor != nullptr) 
-			cursor->release_focus();
+		if(_cursor != nullptr) 
+			_cursor->release_focus();
 
-		auto it = std::find(components.begin(), components.end(), cursor);
-		if (it != components.end())
+		auto it = std::find(_components.begin(), _components.end(), _cursor);
+		if (it != _components.end())
 		{
 			++it;
-			while (it != components.end())
+			while (it != _components.end())
 			{
 				if ((*it)->try_give_focus()) {
-					cursor = *it;
+					_cursor = *it;
 					return true;
 				}
 				++it;
@@ -79,18 +80,18 @@ namespace termform {
 	}
 
 	bool container::move_cursor_to_prev() {
-		if (cursor != nullptr)
-			cursor->release_focus();
+		if (_cursor != nullptr)
+			_cursor->release_focus();
 
 		{
-			auto it = std::find(components.rbegin(), components.rend(), cursor);
-			if (it != components.rend())
+			auto it = std::find(_components.rbegin(), _components.rend(), _cursor);
+			if (it != _components.rend())
 			{
 				++it;
-				while (it != components.rend())
+				while (it != _components.rend())
 				{
 					if ((*it)->try_give_focus_back()) {
-						cursor = *it;
+						_cursor = *it;
 						return true;
 					}
 					++it;

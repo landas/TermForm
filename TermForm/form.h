@@ -57,11 +57,11 @@ namespace termform {
 			_print = print;
 		}
 
-		uint16_t width() {
+		uint16_t width() const {
 			return _width;
 		}
 
-		uint16_t height() {
+		uint16_t height() const {
 			return _height;
 		}
 
@@ -87,7 +87,7 @@ namespace termform {
 			_status = s;
 		}
 
-		void clear() {
+		void clear() const {
 			print(ansi_escape_code::get_clear_all());
 		}
 
@@ -118,7 +118,6 @@ namespace termform {
 	private:
 		void display_status() const {
 			
-			
 			print(ansi_escape_code::get_move(0, _height - 1) +
 				ansi_escape_code::get(ansi_escape_code::color::standard) + 
 				ansi_escape_code::get(ansi_escape_code::background::standard) +
@@ -132,6 +131,7 @@ namespace termform {
 		int16_t _width{ 0 };
 		int16_t _height{ 0 };
 		bool _quit{ false };
+
 
 	private:
 		static constexpr int16_t max_status_length{ 150 };

@@ -21,7 +21,7 @@ namespace termform {
 		{
 			ptr_object->x(0);
 			ptr_object->parent(this);
-			components.push_back(std::static_pointer_cast<component>(ptr_object));
+			_components.push_back(std::static_pointer_cast<component>(ptr_object));
 		}
 
 		bool input(int chr) override;
@@ -30,7 +30,7 @@ namespace termform {
 		bool move_cursor_to_next();
 		bool move_cursor_to_prev();
 
-		form* get_form() override {
+		form* get_form() const override {
 
 			if (_form != nullptr)
 				return _form;
@@ -42,15 +42,23 @@ namespace termform {
 			return nullptr;
 		}
 
+		void release_focus() override {
+			component::release_focus();
+			
+			if (_cursor != nullptr) {
+				_cursor->release_focus();
+			}
+		}
+
 	protected:
 		inline void set_form(form* pform) {
 			_form = pform;
 		}
 
 	protected:
-		std::vector<component_ptr> components{};
+		std::vector<component_ptr> _components{};
 		form* _form{ nullptr };
-		component_ptr cursor{ nullptr };
+		component_ptr _cursor{ nullptr };
 
 	friend class form;
 

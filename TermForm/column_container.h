@@ -16,7 +16,7 @@ namespace termform {
 		paint_return paint(uint16_t x, uint16_t y, bool force) override {
 			std::string str{};
 			uint16_t x_pos = x;
-			for (const auto& c : components) {
+			for (const auto& c : _components) {
 				bool is_invalid = c->invalid();
 				auto ret = c->paint(x_pos, y, force);
 				
@@ -50,12 +50,12 @@ namespace termform {
 			_padding_right = padding_right;
 		}
 
-		char padding_right() {
+		char padding_right() const {
 			return _padding_right;
 		}
 
 		bool input(int chr) override {
-			if (!cursor->input(chr)) {
+			if (!_cursor->input(chr)) {
 				switch (chr) {
 				case keycode.arrow_left:
 					move_cursor_to_prev();
