@@ -51,7 +51,7 @@ namespace termform {
 		}
 
 		form(int width, int height) : form(width, height, nullptr) { }
-		form(int width, int height, print_function* print) : _width(width), _height(height), _print(print) { }
+		form(int width, int height, print_function* print) : _print(print), _width(width), _height(height) { }
 
 		void set_print_function(print_function* print) {
 			_print = print;

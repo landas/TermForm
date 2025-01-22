@@ -5,6 +5,11 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TermForm", "TermForm\TermForm.vcxproj", "{53664303-C658-4B4E-8209-E9FC6C6E2787}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPETerminal", "SPETerminal\SPETerminal.vcxproj", "{2ED62968-FEF9-462E-BA4E-92E1294F5666}"
+	ProjectSection(ProjectDependencies) = postProject
+		{53664303-C658-4B4E-8209-E9FC6C6E2787} = {53664303-C658-4B4E-8209-E9FC6C6E2787}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +26,14 @@ Global
 		{53664303-C658-4B4E-8209-E9FC6C6E2787}.Release|x64.Build.0 = Release|x64
 		{53664303-C658-4B4E-8209-E9FC6C6E2787}.Release|x86.ActiveCfg = Release|Win32
 		{53664303-C658-4B4E-8209-E9FC6C6E2787}.Release|x86.Build.0 = Release|Win32
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Debug|x64.ActiveCfg = Debug|x64
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Debug|x64.Build.0 = Debug|x64
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Debug|x86.ActiveCfg = Debug|Win32
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Debug|x86.Build.0 = Debug|Win32
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Release|x64.ActiveCfg = Release|x64
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Release|x64.Build.0 = Release|x64
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Release|x86.ActiveCfg = Release|Win32
+		{2ED62968-FEF9-462E-BA4E-92E1294F5666}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

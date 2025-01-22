@@ -61,6 +61,7 @@ namespace termform {
 			_on_focus = other._on_focus;
 			_on_leave = other._on_leave;
 			_on_input = other._on_input;
+			return *this;
 		}
 
 		// Move Constructor (defaults to copy)
